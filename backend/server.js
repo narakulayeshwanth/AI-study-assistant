@@ -17,8 +17,10 @@ const progressRoutes = require('./routes/progress');
 
 const app = express();
 
-// Connect to MongoDB
-connectDB();
+// Connect to MongoDB (non-blocking on serverless)
+connectDB().catch((err) =>
+  console.error('MongoDB startup error:', err.message)
+);
 
 // Security middleware
 app.use(
@@ -62,11 +64,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Serve uploaded files
-app.use(
-  '/uploads',
-  express.static(path.join(__dirname, 'uploads'))
-);
+// Note: /uploads static serving removed — Vercel has no persistent disk.
+// Files are written to /tmp per-request only.
 
 // Health check
 app.get('/api/health', (req, res) => {

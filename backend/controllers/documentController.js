@@ -124,10 +124,10 @@ const deleteDocument = async (req, res, next) => {
       return res.status(404).json({ error: 'Document not found' });
     }
 
-    // Delete physical file
-    const filePath = path.join(__dirname, '..', 'uploads', document.filename);
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
+    // Delete physical file — on Vercel files land in /tmp
+    const tmpPath = path.join('/tmp', document.filename);
+    if (fs.existsSync(tmpPath)) {
+      fs.unlinkSync(tmpPath);
     }
 
     // Delete all related data
