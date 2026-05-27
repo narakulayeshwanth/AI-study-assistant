@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://ai-study-assistant-htxx-gfi6zy5yo-sunnynarakula-9023s-projects.vercel.app/api',
+  baseURL: '/api',
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -23,7 +23,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
-      window.location.href = '/auth';
+      window.location.replace('/auth');
     }
 
     return Promise.reject(error);

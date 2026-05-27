@@ -38,29 +38,15 @@ const limiter = rateLimit({
 
 app.use('/api/', limiter);
 
-// CORS FIX
+// CORS — reflect origin so same-deployment and localhost both work
 app.use(
   cors({
-    origin: [
-      'https://ai-study-assistant-wheat-tau.vercel.app',
-    ],
+    origin: true,
     credentials: true,
-    methods: [
-      'GET',
-      'POST',
-      'PUT',
-      'DELETE',
-      'PATCH',
-      'OPTIONS',
-    ],
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
-
-app.options('*', cors());
 
 // Body parsing
 app.use(express.json({ limit: '10mb' }));
