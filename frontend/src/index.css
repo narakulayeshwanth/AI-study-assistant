@@ -1,0 +1,266 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Custom Properties ── */
+:root {
+  --bg-primary: #0a0b14;
+  --bg-secondary: #0f1120;
+  --bg-card: #13152a;
+  --border: rgba(249, 115, 22, 0.15);
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+}
+
+.light {
+  --bg-primary: #f8faff;
+  --bg-secondary: #f1f4ff;
+  --bg-card: #ffffff;
+  --border: rgba(249, 115, 22, 0.2);
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+}
+
+/* ── Base ── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(249, 115, 22, 0.6); }
+
+/* ── Glass Card ── */
+@layer components {
+  .glass {
+    @apply backdrop-blur-md border border-white/10;
+    background: linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .glass-light {
+    @apply backdrop-blur-md border border-white/20;
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+    box-shadow: 0 8px 32px rgba(249,115,22,0.1);
+  }
+
+  .btn-primary {
+    @apply px-6 py-2.5 bg-gradient-to-r from-primary-600 to-accent-600 text-white font-semibold rounded-xl
+           hover:from-primary-500 hover:to-accent-500 transition-all duration-200
+           shadow-glow-primary hover:shadow-glow-accent active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-2.5 border border-primary-500/40 text-primary-400 font-semibold rounded-xl
+           hover:bg-primary-500/10 hover:border-primary-400 transition-all duration-200 active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply px-4 py-2 text-slate-400 font-medium rounded-lg
+           hover:text-white hover:bg-white/5 transition-all duration-200;
+  }
+
+  .card {
+    @apply rounded-2xl border p-6 transition-all duration-200;
+    background: var(--bg-card);
+    border-color: var(--border);
+  }
+
+  .card-hover {
+    @apply card hover:border-primary-500/40 hover:shadow-glow-primary hover:-translate-y-0.5;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border bg-white/5 text-slate-200 placeholder-slate-500
+           border-white/10 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50
+           transition-all duration-200;
+  }
+
+  .label {
+    @apply text-sm font-medium text-slate-300 mb-1.5 block;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary-500/20 text-primary-300 border border-primary-500/30;
+  }
+
+  .badge-success {
+    @apply badge bg-emerald-500/20 text-emerald-300 border border-emerald-500/30;
+  }
+
+  .badge-warning {
+    @apply badge bg-amber-500/20 text-amber-300 border border-amber-500/30;
+  }
+
+  .badge-danger {
+    @apply badge bg-red-500/20 text-red-300 border border-red-500/30;
+  }
+
+  /* Shimmer loading effect */
+  .skeleton {
+    @apply rounded-lg animate-pulse;
+    background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.07) 50%, rgba(255,255,255,0.03) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-400 via-accent-400 to-brand-cyan bg-clip-text text-transparent;
+  }
+
+  /* Glow orb background */
+  .glow-orb {
+    @apply absolute rounded-full blur-3xl opacity-20 pointer-events-none;
+  }
+}
+
+/* ── Flip Card ── */
+.flip-card { perspective: 1000px; }
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.flip-card-inner.flipped { transform: rotateY(180deg); }
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 1.25rem;
+}
+.flip-card-back { transform: rotateY(180deg); }
+
+/* ── Prose for AI content ── */
+.ai-content p { @apply mb-3 text-slate-300 leading-relaxed; }
+.ai-content h1,
+.ai-content h2,
+.ai-content h3 { @apply text-white font-semibold mb-2 mt-4; }
+.ai-content ul,
+.ai-content ol { @apply pl-5 mb-3 space-y-1; }
+.ai-content li { @apply text-slate-300; }
+.ai-content strong { @apply text-white font-semibold; }
+.ai-content code { @apply bg-white/10 px-1.5 py-0.5 rounded text-primary-300 text-sm font-mono; }
+
+/* ── Toast ── */
+.toast-container { @apply fixed top-4 right-4 z-50 flex flex-col gap-2; }
+
+/* ── Page transition ── */
+.page-enter { animation: fadeIn 0.3s ease-out; }
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT THEME OVERRIDES
+   Because components use hardcoded dark Tailwind classes (text-white,
+   text-slate-*, bg-white/5, etc.) we override them here when .light
+   is applied to <html>.
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Core text remapping ── */
+.light .text-white               { color: #1e293b !important; }
+.light .text-slate-50            { color: #1e293b !important; }
+.light .text-slate-100           { color: #1e293b !important; }
+.light .text-slate-200           { color: #334155 !important; }
+.light .text-slate-300           { color: #475569 !important; }
+.light .text-slate-400           { color: #64748b !important; }
+.light .text-slate-500           { color: #94a3b8 !important; }
+.light .text-slate-600           { color: #94a3b8 !important; }
+
+/* ── Background remapping ── */
+.light .bg-white\/5              { background-color: rgba(15, 23, 42, 0.05) !important; }
+.light .bg-white\/10             { background-color: rgba(15, 23, 42, 0.08) !important; }
+.light .hover\:bg-white\/5:hover { background-color: rgba(15, 23, 42, 0.06) !important; }
+
+/* ── Border remapping ── */
+.light .border-white\/10         { border-color: rgba(15, 23, 42, 0.12) !important; }
+.light .border-white\/20         { border-color: rgba(15, 23, 42, 0.18) !important; }
+
+/* ── Sidebar specific ── */
+.light aside,
+.light [class*="sidebar"] {
+  background: var(--bg-secondary) !important;
+}
+
+/* ── Sidebar nav links ── */
+.light .text-slate-400.hover\:text-white:hover { color: #1e293b !important; }
+.light .hover\:text-white:hover               { color: #1e293b !important; }
+
+/* ── Input fields ── */
+.light .input-field {
+  background-color: rgba(15, 23, 42, 0.06) !important;
+  color: #1e293b !important;
+  border-color: rgba(15, 23, 42, 0.15) !important;
+}
+.light .input-field::placeholder { color: #94a3b8 !important; }
+
+/* ── Labels ── */
+.light .label { color: #334155 !important; }
+
+/* ── Cards ── */
+.light .card,
+.light .card-hover {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+
+/* ── Glass components ── */
+.light .glass {
+  background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(255,255,255,0.65)) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08) !important;
+}
+
+/* ── Skeleton shimmer ── */
+.light .skeleton {
+  background: linear-gradient(90deg, rgba(15,23,42,0.06) 25%, rgba(15,23,42,0.1) 50%, rgba(15,23,42,0.06) 75%) !important;
+}
+
+/* ── AI content prose ── */
+.light .ai-content p        { color: #334155 !important; }
+.light .ai-content h1,
+.light .ai-content h2,
+.light .ai-content h3       { color: #1e293b !important; }
+.light .ai-content li       { color: #334155 !important; }
+.light .ai-content strong   { color: #1e293b !important; }
+.light .ai-content code     { background: rgba(15,23,42,0.08) !important; color: #7c3aed !important; }
+
+/* ── Stat card values ── */
+.light .font-display.text-white { color: #1e293b !important; }
+
+/* ── Button ghost ── */
+.light .btn-ghost              { color: #64748b !important; }
+.light .btn-ghost:hover        { color: #1e293b !important; background-color: rgba(15,23,42,0.07) !important; }
+
+/* ── Secondary button ── */
+.light .btn-secondary          { color: #7c3aed !important; border-color: rgba(124,58,237,0.4) !important; }
+
+/* ── Badge overrides ── */
+.light .badge-primary   { background-color: rgba(124,58,237,0.12) !important; color: #7c3aed !important; }
+.light .badge-success   { background-color: rgba(16,185,129,0.12) !important; color: #059669 !important; }
+.light .badge-warning   { background-color: rgba(245,158,11,0.12) !important; color: #d97706 !important; }
+.light .badge-danger    { background-color: rgba(239,68,68,0.12)  !important; color: #dc2626 !important; }
+
+/* ── Scrollbar ── */
+.light ::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.3); }
+.light ::-webkit-scrollbar-thumb:hover { background: rgba(100,116,139,0.6); }
